@@ -1,12 +1,19 @@
+import os
 import pyautogui
-from time import sleep
-pyautogui.hotkey('win','r')
-pyautogui.write('cmd')
-pyautogui.press('enter')
-sleep(2)
-pyautogui.write('You are being hacked!')
-sleep(2)
-pyautogui.press('win')
-sleep(2)
-pyautogui.write('settings')
-pyautogui.press('enter')
+import time
+def cmd(command):
+    pyautogui.hotkey('win','r')
+    time.sleep(0.1)
+    pyautogui.write('cmd')
+    pyautogui.press('enter')
+    time.sleep(2)
+    pyautogui.write(command)
+    pyautogui.press('enter')
+def open_app(app):
+    pyautogui.press('win')
+    time.sleep(1)
+    pyautogui.write(app)
+    pyautogui.press('enter')
+
+
+cmd('hello')
