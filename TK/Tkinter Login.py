@@ -1,6 +1,5 @@
 import tkinter
 import ctypes
-import sys
 
 # Enable high DPI awareness for roots to prevent scaling issues
 try:
@@ -16,12 +15,21 @@ input_user=None
 input_password=None
 mode = tkinter.NORMAL
 full_size=False
+message=None
+count=0
 
 def login():
-    if user_entry.get().lower() in user and password_entry.get() == user[user_entry.get().lower()]:
-        sys.exit()
-    else:
-        print('Access Denied')
+    global message
+    global count
+    if count < 3:
+        if user_entry.get().lower() in user and password_entry.get() == user[user_entry.get().lower()]:
+            root.quit()
+        else:
+            print('Access Denied')
+            message='Access Denied'
+            output_label.config(text=message)
+            count += 1
+    else: root.quit()
 
 def switch_state():
     global mode
@@ -63,7 +71,7 @@ root.attributes('-topmost', True)  # Decides if this window can disapere
 
 frame=tkinter.Frame(bg='#000000', pady=30)
 frame.pack()
-message='hello dddd off'
+
 label = tkinter.Label(frame, fg='#20C20E', bg='#000000', text="Login", font=('arial rounded mt bold',30), pady=30)
 label.grid(row=0, column=0, columnspan=3)
 user_entry = tkinter.Entry(frame, font=('arial rounded mt bold',14), fg='#20C20E', bg='#454545', state=mode)
