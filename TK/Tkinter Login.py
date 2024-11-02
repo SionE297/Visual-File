@@ -1,5 +1,7 @@
 import tkinter
 import ctypes
+import json
+import os
 
 # Enable high DPI awareness for roots to prevent scaling issues
 try:
@@ -7,14 +9,16 @@ try:
 except:
     pass
 
-user = {
-        'joness':'078',
-        'sion':'123'
-    }
+# Get the directory of the current script
+
+
+with open('C:\\Users\\minyg\\OneDrive\\Documents\\Visual\\TK\\Users.JSON', 'r') as file:
+    user=json.load(file)
+    
 input_user=None
 input_password=None
 mode = tkinter.NORMAL
-full_size=False
+full_size=False #Oposite of boolen
 message=None
 count=0
 
@@ -25,7 +29,6 @@ def login():
         if user_entry.get().lower() in user and password_entry.get() == user[user_entry.get().lower()]:
             root.quit()
         else:
-            print('Access Denied')
             message='Access Denied'
             output_label.config(text=message)
             count += 1
