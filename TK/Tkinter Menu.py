@@ -1,4 +1,4 @@
-import tkinter
+import customtkinter
 import ctypes
 
 # Enable high DPI awareness for roots to prevent scaling issues
@@ -7,8 +7,9 @@ try:
 except:
     pass
 
-bg0 = '#000000'
+bg0 = '#2e2e2e'
 fg0 = '#ffffff'
+highlight_color = '#1e90ff'  # Use a blue highlight color for selected options
 
 # Function to center the window
 def center_window(window, width, height):
@@ -20,36 +21,33 @@ def center_window(window, width, height):
 
 # Function to create the main menu
 def open_menu():
-    menu = tkinter.Tk()
+    menu = customtkinter.CTk()
     menu.title("Options")
-    menu.configure(bg=bg0)
     center_window(menu, 800, 500)
+    customtkinter.set_appearance_mode("dark")
+    customtkinter.set_default_color_theme("dark-blue")
 
     # Main frame
-    menu_frame = tkinter.Frame(menu, bg='#333333', height=200, width=400)
-    menu_frame.pack()
+    menu_frame = customtkinter.CTkFrame(master=menu, fg_color=bg0, corner_radius=10, width=400)
+    menu_frame.pack(pady=40)
 
     # Options
-    option_0 = tkinter.Label(menu_frame, bg=bg0, fg=fg0, font=('arial rounded mt bold', 20), text='Option 1')
-    option_0.pack()
-    option_1 = tkinter.Label(menu_frame, bg=bg0, fg=fg0, font=('arial rounded mt bold', 20), text='Option 2')
-    option_1.pack()
-    option_2 = tkinter.Label(menu_frame, bg=bg0, fg=fg0, font=('arial rounded mt bold', 20), text='Option 3')
-    option_2.pack()
-    option_3 = tkinter.Label(menu_frame, bg=bg0, fg=fg0, font=('arial rounded mt bold', 20), text='Option 4')
-    option_3.pack()
+    options = []
+    for text in ["Option 1", "Option 2", "Option 3", "Option 4"]:
+        option = customtkinter.CTkLabel(menu_frame, text_color=fg0, font=('arial rounded mt bold', 20), text=text)
+        option.pack(pady=10, padx=20)
+        options.append(option)
 
     # Keep track of current option
     current_option = 0
-    options = [option_0, option_1, option_2, option_3]
 
     # Update option color
     def highlight_option(option_index):
         for i, option in enumerate(options):
             if i == option_index:
-                option.config(bg='#ffffff', fg='#000000')
+                option.configure(text_color='#000000', fg_color=highlight_color)
             else:
-                option.config(bg=bg0, fg=fg0)
+                option.configure(text_color=fg0, fg_color=bg0)
 
     # Set initial highlight
     highlight_option(current_option)
@@ -57,18 +55,9 @@ def open_menu():
     # Define what happens when "Enter" is pressed
     def press():
         nonlocal current_option
+        menu.destroy()
         if current_option == 0:
-            menu.destroy()
             open_opt0()
-        elif current_option == 1:
-            menu.destroy()
-            # Additional actions for Option 2
-        elif current_option == 2:
-            menu.destroy()
-            # Additional actions for Option 3
-        elif current_option == 3:
-            menu.destroy()
-            # Additional actions for Option 4
 
     # Event handling for up/down keys
     def on_key_press(event):
@@ -90,17 +79,16 @@ def open_menu():
 
 # Function to create the opt0 window
 def open_opt0():
-    opt0 = tkinter.Tk()
+    opt0 = customtkinter.CTk()
     opt0.title("Messages")
-    opt0.configure(bg=bg0)
     center_window(opt0, 400, 200)
 
     # Message label
-    message_label = tkinter.Label(opt0, text="This is Option 1", font=('arial rounded mt bold', 20), fg=fg0, bg=bg0)
+    message_label = customtkinter.CTkLabel(opt0, text="This is Option 1", font=('arial rounded mt bold', 20), text_color=fg0)
     message_label.pack(pady=20)
 
     # Button to go back to menu
-    back_button = tkinter.Button(opt0, text="Back to Menu", bg='#333333', fg='#ff0000', command=lambda: [opt0.destroy(), open_menu()])
+    back_button = customtkinter.CTkButton(opt0, text="Back to Menu", fg_color=highlight_color, text_color='#ffffff', command=lambda: [opt0.destroy(), open_menu()])
     back_button.pack(pady=10)
 
     opt0.mainloop()
